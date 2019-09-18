@@ -544,7 +544,23 @@
                                     <form action="/procesar-pago" method="POST">
                                         <script src="https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js" data-preference-id="<?php echo $preference->id; ?>">
                                         </script>
-                                    </form>                            
+                                        <?php
+                                        // SDK de Mercado Pago
+                                        require __DIR__ .  '/vendor/autoload.php';
+                                        MercadoPago\SDK::setAccessToken('TEST-6930389039251166-091820-7d472799e9453af62d765d20a7d39762-33487575');
+
+                                        // Crea un objeto de preferencia
+                                        $preference = new MercadoPago\Preference();
+∫
+                                        // Crea un ítem en la preferencia
+                                        $item = new MercadoPago\Item();
+                                        $item->title = $_POST['title'];
+                                        $item->quantity = $_POST['unit'];
+                                        $item->unit_price = $_POST['price'];
+                                        $preference->items = array($item);
+                                        $preference->save();
+                                        ?>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -560,22 +576,7 @@
                 </div>
             </div>
         </div>
-        <?php
-        // SDK de Mercado Pago
-        require __DIR__ .  '/vendor/autoload.php';
-        MercadoPago\SDK::setAccessToken('TEST-6930389039251166-091820-7d472799e9453af62d765d20a7d39762-33487575');
 
-        // Crea un objeto de preferencia
-        $preference = new MercadoPago\Preference();
-
-        // Crea un ítem en la preferencia
-        $item = new MercadoPago\Item();
-        $item->title = $_POST['title'];
-        $item->quantity = $_POST['unit'];
-        $item->unit_price = $_POST['price'];
-        $preference->items = array($item);
-        $preference->save();
-        ?>
 
 </html>
 </div>
